@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% block app_content %}
+<h1>Mushroom Hikes</h1>
+
+
+<h3> An app that leverages deep learning to classify mushrooms in the wild.</h3>
+
+<p><font size = '4'> Mushroom identification is a tough challenge. There are
+hundreds of thousands of species, and many are very similar to each other.
+To tackle this challenge, I developed an app using a crowd-sourced dataset
+of pictures of mushrooms. You can take a picture of a mushroom in the wild,
+and it'll tell you what species it is. It will be a cool tool for hikers,
+and even classrooms to learn about nature in the real world, without having
+to carry around a textbook or know anything about the topic.</p>
+
+<h2> Data Sources </h2>
+I stitched together 2 different datasets: the <a href=https://mushroomobserver.org/>
+Mushroom Observer</a> and the <a href=https://snm.ku.dk/english/news/all_news/2018/2018.5/the-fungi-classification-challenge/>
+Danish Svampe Atlas</a>. This amounted to +1M images! There were ~2000 species
+that had at least 100 pictures, so in the end only ~750K images went into
+training. The pipeline lived in the AWS ecosystem, and it looked
+something like this:
+
+</br></br>
+
+<img src= "{{ url_for('static', filename="resize_pipeline.png") }}"   alt="ds image"/>
+
+
+<h2> Model</h2>
+Model is defined in two parts. We use Tensorflow-Hub to load the pretrained weights
+ of <a href=https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Szegedy_Rethinking_the_Inception_CVPR_2016_paper.pdf>
+Inception V3</a>. The second part adds our layers. Depending what method we call,
+we can either: </br></br>
+1) add a single dense layer with a softmax output. </br>
+2) add a multi-head model predicting Genus and Species. </br>
+</br></br>
+<img src= "{{ url_for('static', filename="resize_mushroom_model.png") }}"   alt="ds image"/>
+</br></br>
+
+
+
+<h2> Results </h2>
+The following results were achieved on the test set.
+All code is available on <a href=https://github.com/pablo-martin/Mushroom-Hikes >github.</a>
+</br></br>
+
+<table class="table table-striped">
+  <tr>
+   <th><strong>Model</strong></th>
+   <th></th>
+   <th>Top-1</th>
+   <th>Top-5</th>
+   <th>Top-10</th>
+  </tr>
+  <tr>
+   <th>Single Softmax Layer</th>
+   <th>(Genus+Species)</th>
+   <td>9%</td>
+   <td>36.19%</td>
+   <td>44.77%</td>
+  </tr>
+
+  <tr>
+   <th>Multihead Layer</th>
+   <th>(Genus)</th>
+   <td>9%</td>
+   <td>36.19%</td>
+   <td>44.77%</td>
+  </tr>
+
+  <tr>
+    <th></th>
+   <th>(Species)</th>
+   <td>9%</td>
+   <td>36.19%</td>
+   <td>44.77%</td>
+  </tr>
+</table>
+
+</br>
+
+This project was done over 3 weeks as part of the Artificial Intelligence
+Fellowship program at <a href= https://www.insightdata.ai/>Insight</a>. It was
+truly a great opportunity to learn from other STEM PhD students and fantastic
+program directors. It was awesome to see how far you can go in so little time.
+Feel free to leave comments down below.
+</br></br>
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+
+var disqus_config = function () {
+this.page.url = www.pablo-g-martin.com/hunter;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = www.pablo-g-martin.com/hunter; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://pablomartin.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+{% endblock %}

@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block app_content %}
+
+<h1>Hunter S. Thompson Bot</h1>
+<p><font size = '4'>
+  Ever since I saw the AI-generated Harry Potter
+  <b><a href = "http://botnik.org/content/harry-potter.html">
+  chapter</a></b>,
+  I wanted to see it for Hunter S. Thompson. A few came out, but none
+  from the doctor, so I decided to do it myself.
+  I trained a "deep" Long Short-Term Memory (LSTM)
+  neural network on the oeuvre of Hunter S. Thompson.
+  After several days, it came to generate something reminiscent of the
+  inventor of Gonzo journalism. You can check it below.
+  <br><br>
+  <img src= "{{ url_for('static', filename="hunter.jpg") }}"alt="ds image"/>
+  <br><br>
+  On the first box, you can specify how many characters you want to generate
+  (max 200).
+  On the second field, you can also specify the "temperature". The higher
+  the temperature, the more random (funny) the text, but with a greater chance
+  of typos and nonsense. The lower the temperature, the more "conservative" the guess.
+  A good value is anything below 1.
+  Type a phrase, like "the meaning of life is ", or
+  "my television wants to " and click 'Autocomplete'. Or just click 'Generate New
+  Phrase' to generate a random sentence. <strong>It does take a few seconds to process.</strong>
+</font><br><br></p>
+
+
+
+<form action="" method="post">
+  {{ form.hidden_tag() }}
+  {{ form.hidden_tag() }}
+  {{ form.noChars.label }} </br>
+  {{ form.noChars(cols=30, rows=1) }}</br>
+  {{ form.temp.label }}</br>
+  {{ form.temp(cols=30, rows=1) }}</br>
+
+  {{ form.post.label }}<br>
+  {{ form.post(cols=60, rows=10) }}<br>
+  {% for error in form.post.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+  {% endfor %}
+
+  <p>{{ form.submit() }}</p>
+  <p>{{ form.generate() }}</p>
+</form>
+
+
+
+
+{% endblock %}
+{% block post_content %}
+<br><br>
+<p><font size = '4'> If you want a decription of how LSTM networks work, check
+out this
+<b><a href = "http://people.idsia.ch/~juergen/rnn.html">link</b></a>.
+You can see the code and corresponding notebook I used for this on my git
+<b><a href = "https://github.com/pablo-martin/Hunter">repo</b></a>.
+Share a funny Hunterbot phrase on the comments down below. Here are some of my favorite phrases so far:</font></p>
+   <hr>
+  <p><i><font size = '4'>
+    it was a deal with the seal.  </br>
+     had a beef and ready for the president. </br>
+    what would dare in the campaign beach.   </br>
+    the sense of the sane thing.    </br>
+    the scum of the strange   </br>
+    the show of traffic lust   </br>
+    and then he said they would not be the kind of goddamn true style.  </br>
+    but now i was a beautiful slice  </br>
+    the voters who try to accept the progressive story for the people  </br>
+    he would have to be a half-hipzing 100 million technical thing  </br>
+    we were after a black balloon screen on the street  </br>
+    later that night i heard the press and the people who could handle the press conference.</br>
+    one of the most active cases of the "good shock"  </br>
+    the mayor and the student rogf had the main toad gang  </br>
+    this is apparent that its about this time she tells the press box in the beach.</br>
+    live for work, thats the last desk word of all time</br>
+    they don't mind lepers.</br>
+    and i have some kind of spanish and i sit in the back seat and then the letter of the shark </br>
+  </font></i></p>
+  <hr>
+  Note: Sometimes the network produces offensive language. Remember that it only
+  tries to act "in the style" of whatever it was fed. Hunter S. Thompson often
+  used inappropriate language. In no way is this intended to offend anybody.
+    </br></br></br></br>
+  <div id="disqus_thread"></div>
+  <script>
+
+  /**
+  *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+  *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+
+  var disqus_config = function () {
+  this.page.url = www.pablo-g-martin.com/hunter;  // Replace PAGE_URL with your page's canonical URL variable
+  this.page.identifier = www.pablo-g-martin.com/hunter; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+  };
+
+  (function() { // DON'T EDIT BELOW THIS LINE
+  var d = document, s = d.createElement('script');
+  s.src = 'https://pablomartin.disqus.com/embed.js';
+  s.setAttribute('data-timestamp', +new Date());
+  (d.head || d.body).appendChild(s);
+  })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+{% endblock %}

@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+{% block app_content %}
+<h1>HyperMaze</h1>
+<font size='4'><p>When I arrived at the Shapiro Lab in 2013, the bulk of my work was running
+  behavioral experiments that tested the spatial memory of rodents in a maze.
+  It's not fun work, it involves being on your feet,
+  baiting the maze with chocolate sprinkles, picking up and putting down a
+  rat, and then recording what they did in an Excel sheet. Repeat, hundreds
+  of times, for ~6 hours everyday. I could not stand the inefficiency and from the first day
+  I was already thinking of coding a program that got rid of the Excel sheet. It
+  started as a simple program that took care of the behavioral task logic, so I wouldn't
+  have to, and would prepare the data into a file that was ready to analyze as
+  soon as the session was over. The obsession over making the process more efficient
+  eventually led way to full automation. I started adding electronics
+  and Arduinos everywhere. The simple computer program evolved into a
+  MATLAB GUI that interfaced with multiple Arduinos. Eventually it was
+  replaced by a Python implementation, as it became more convenient to host on
+  a Raspberry Pi. And MATLAB is too clunky to run on one of those. You can check
+  out my code on
+  <a href="https://github.com/elektrochose/hypermaze">github</a>.
+  Below I give a detailed description of what went into the design and execution
+  of the "HyperMaze". If you work in a lab and are trying to get a similar setup
+  don't hesitate to reach out.</font></br></br>
+
+  <div class="image" style="display:table;">
+  <img src="{{ url_for('static', filename="resize_rat.jpeg") }}" alt="ds"/ >
+  <div style="display:table-caption;caption-side:bottom;text-align: center;"><i>
+  Rat pondering where to go in a challenging arm-bandit task.</i></div>
+  </div>
+
+  <hr>
+<h2>Design</h2>
+  </br><font size='4'>
+  Originally, the maze was made of wood and looked like a '+' sign: two
+  perpendicular arms, about 6
+  feet in length, intersecting in the middle. As I moved forward with automation,
+  I realized I would need extra arms connecting the ends of the '+' maze.
+  The experimenter would usually do that part by carrying the rat to the appropriate
+  start or end of the trial.
+  I wanted full automation, and had to alter the geometry of the maze to look
+  something like this:
+</font></br></br>
+
+  <div class="image" style="display:table;">
+  <img src= "{{ url_for('static', filename="overview1.jpg") }}" alt="ds image"/>
+  <div style="display:table-caption;caption-side:bottom;text-align: center;"><i>
+  The '+' maze consists of the interior perpendicular arms.</i></div>
+  </div>
+
+  </br>
+  <div class="image" style="display:table;">
+  <img src= "{{ url_for('static', filename="overview2.jpg") }}" alt="ds image"/>
+  <div style="display:table-caption;caption-side:bottom;text-align: center;"><i>
+    The angled arms lead the rats to the inner '+' maze.</i></div>
+  </div>
+
+
+  </br></br><font size='4'>
+  I then "automated" the chocolate sprinkles, by replacing them with an infrared-sensor
+  triggered solenoid valve that dispensed sucrose water. When the rats stood on top of
+  the sensor, the solenoid valve would open for ~50ms and deliver 100uL of sucrose
+  by gravity. LED lights fitted above the feeder indicate whether
+  reward may be available. Here is a picture of what that looked like.</font></br></br>
+  <div class="image" style="display:table;">
+  <img src= "{{ url_for('static', filename="feeder1-converted.jpg") }}"
+  alt="ds image" />
+  <div style="display:table-caption;caption-side:bottom;text-align: center;"><i>
+    The reservoir holds sucrose water. The solenoid valve is located
+    below it, with tubing that goes down to nozzle.</i></div>
+  </div>
+
+  </br>
+  <div class="image" style="display:table;">
+  <img src= "{{ url_for('static', filename="feeder2-converted.jpg") }}"
+   alt="ds image"/>
+   <div style="display:table-caption;caption-side:bottom;text-align: center;"><i>
+     Nozzle where reward was delivered. Notice sensor below clear plastic
+     floor. 3 LEDs above served as cues. The "brushes" on either side of the wall
+     prevented the tails from getting caught by the rotation of the cylinder, much
+     like the ones on escalators.</i></div>
+   </div>
+
+
+
+
+  </br><font size='4'>
+  And finally, I replaced myself,
+  by adding rotating cylinders that allowed rats
+  to enter or exit the arms of the maze according to the task logic. This was not
+  easy as rats are very good at climbing and can jump surprisingly high. I hope
+  that doesn't make you more scared of the subway. Earlier
+  prototypes of the maze failed because rats could not wait for the program to
+  open the door and would simply jump over the wall.
+  <font></br></br>
+  <div class="image" style="display:table;">
+  <img src= "{{ url_for('static', filename="cylinder1.jpg") }}" alt="ds image"/>
+  <div style="display:table-caption;caption-side:bottom;text-align: center;"><i>
+    The motor would rotate the rubber wheel, which would turn the cylinder. The
+    cylinder was actually a large cooking pot I bought at a restaurant supply store
+    in Chinatown. I cut the door opening and attached it to a lazy susan which
+    allowed it to rotate.</i></div>
+  </div>
+  </br>
+  <div class="image" style="display:table;">
+  <img src= "{{ url_for('static', filename="cylinder2.jpg") }}" alt="ds image"/>
+  <div style="display:table-caption;caption-side:bottom;text-align: center;"><i>
+    The cylinder would rotate to align with an arm and allow
+    the rat to enter that part of the maze. Sensors under the platform allowed
+    it to know when it was aligned with an arm.</i></div>
+  </div></br>
+
+  <font size='4'>Rats love to chew wires
+  and that meant that all electronics had to be encased. These were DC, low-voltage
+  signals so animals were never in danger. However, early prototypes of the maze
+  were ! Infrared sensors were constantly being chewed up. Rats are rodents, and
+  they love to grind their teeth on anything that looks important. For this reason,
+  sensors had to be placed under the floor, which was made of clear acrylic, so that
+  when a rat passed over them, the microcontroller would register the rat position.
+  The frame was made of aluminium pieces from a robotics prototyping set called
+  Actobotics.<font>
+  </br></br>
+    <div class="image" style="display:table;">
+  <img src= "{{ url_for('static', filename="rat_view-converted.jpg") }}" alt="ds image"/>
+  <div style="display:table-caption;caption-side:bottom;text-align: center;"><i>
+    The maze as seen by the rat. Notice the two small holes surrounded by the
+    two wires under the floor. That is one of the many sensors under the maze.</i></div>
+  </div></br>
+
+  <div class="image" style="display:table;">
+  <img src= "{{ url_for('static', filename="cables2.jpg") }}" alt="ds image"/>
+  <div style="display:table-caption;caption-side:bottom;text-align: center;"><i>
+    The aluminium frame had a "duct" under it where the highway of cables powering
+    the sensors and cue lights ran.</i></div>
+  </div></br>
+
+ <font size='4'>
+  The maze was controlled by 3 Arduinos. Each platform (cylinder),
+  was controlled by 1 Arduino that dictated all the logic associated with
+  its behavior. Furthermore, there was one
+  "central" Arduino that controlled both platforms, and
+  communicated with a Raspberry Pi to be able to log the session files and set up
+  the appropriate task. This was located in a central box, where the power
+  supply was housed as well.
+</font></br></br>
+  <div class="image" style="display:table;">
+  <img src= "{{ url_for('static', filename="wiring1.jpg") }}" alt="ds image"/>
+  <div style="display:table-caption;caption-side:bottom;text-align: center;"><i>
+    Board containing platform Arduino, stepper motor drivers, and all circuits of
+    the cylinder mechanism. You can see in the background one of the gears used
+    originally for the motion of the cylinder.</i></div>
+  </div></br>
+
+  <div class="image" style="display:table;">
+  <img src= "{{ url_for('static', filename="wiring2.jpg") }}" alt="ds image"/>
+  <div style="display:table-caption;caption-side:bottom;text-align: center;"><i>
+    The main box. The 2 big cables with labels 'EAST' and
+    'WEST' are carrying all the power and signals outgoing to each platform.
+    There are posts for the power
+  supply rails for easy debugging of the system. </i></div>
+  </div></br>
+  <hr>
+  <h2>Conclusions</h2>
+  </br><font size='4'>In the end, building this allowed for less biased experiments, more standarized
+  behavior, and allowed me to do other work while the rats learned the tasks ! All
+  the (cleaned) data that I ended up using towards my dissertation included
+  52,610 trials run on the maze. That's a lot of trials I'm glad I didn't do by
+  hand. </br></br>
+  The maze
+  combined all the advantages of operant chambers, such as automation, precise
+  timing measurements of behavior, and of spatial maze learning, mainly that it
+  is much more "natural" for a rat to navigate space than to press levers. And finally
+  here is a video of a rat running a behavioral task in an earlier prototype of
+  the maze. The second video shows the last iteration, with 2 rats getting accustomed
+  to the maze. Again, you can find all the code
+  that went into this on my
+  <a href="https://github.com/elektrochose/hypermaze">github</a>.</font></br></br>
+  <iframe width="560" height="315" src="https://www.youtube.com/embed/mDu24BiI6Zs"
+   frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/WXfgUgAoPjI"
+frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+   <iframe width="560" height="315" src="https://www.youtube.com/embed/vp4IxoLc1ew"
+    frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  </br></br></br></br>
+    <div id="disqus_thread"></div>
+    <script>
+
+    /**
+    *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+    *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+
+    var disqus_config = function () {
+    this.page.url = www.pablo-g-martin.com/Hypermaze;  // Replace PAGE_URL with your page's canonical URL variable
+    this.page.identifier = www.pablo-g-martin.com/Hypermaze; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+    };
+
+    (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = 'https://pablomartin.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+{% endblock %}

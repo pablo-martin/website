@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block app_content %}
+<h1>Exploring Medicare Data</h1>
+
+<body><font size='4'>
+I found an interesting dataset gathered by
+<a href = "https://www.datafordemocracy.org/"> data for democracy </a> on
+Medicare drug expenditure. It includes data on class B (clinics or hospitals)
+and class D (prescription) drugs that went thru Medicare between 2011 and 2015.
+It also
+includes Pharma lobbying information for this period. Given the current opioid
+epidemic, I wanted to explore these data to gain some insight into the
+economics of Medicare drug expenditure. <br><br>
+
+First, I'll plot how 14 different opiate medications were administed in hospitals
+or clinics. Below is the total expenditure between 2011 and 2015:
+
+<br><br>
+<img src= "{{ url_for('static', filename="resize_clinic.jpg") }}" alt="ds image"/>
+<br><br>
+There was a sharp increase in Morphine administration for 2015, and a steady
+decline for Fentanyl and Hydromorphone. Now let's take a look at the much
+larger prescription opiate figures:
+
+<br><br>
+<img src= "{{ url_for('static', filename="resize_prescription.jpg") }}" alt="ds image"/>
+<br><br>
+
+Total expenditure stayed constant except for Oxycodone and Morphine, both of which had
+a sharp increase in 2014. If we also look at the # of people using the drug, we
+can see that for Oxycodone, the increase is not due to an increase in price, but
+rather an increase in beneficiaries. There is also a linear increase of users
+for Tramadol:
+
+<br><br>
+<img src= "{{ url_for('static', filename="resize_people_using.jpg") }}"   alt="ds image"/>
+<br><br>
+
+Finally, let's look at how Big Pharma lobbying contributions looked like between
+2011 and 2015. We will restrict our search to pharmaceutical companies that
+produced opiates.
+
+<br><br>
+<img src= "{{ url_for('static', filename="resize_pharma.jpg") }}"   alt="ds image"/>
+<br><br>
+
+Overall, there is a noticeable increase in expenditure for prescription drugs (Oxycodone and
+Morphine) and number of users (Oxycodone and Tramadol). 2014 saw the biggest
+increase in opiate use, however, the increasing trend for Oxycodone in particular
+seems to have started since at least 2011. Furthermore, lobbying contributions
+stayed at a constant level, suggesting little impact on the
+increase in users and expenditure. You can check out the
+code for generating these plots on this github
+<a href="https://github.com/pablo-martin/medicare">repo</a>.
+<br><br><br><br>
+
+  </font>
+</body>
+
+
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+
+var disqus_config = function () {
+this.page.url = www.pablo-g-martin.com/medicare;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = www.pablo-g-martin.com/medicare; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://pablomartin.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+{% endblock %}

@@ -1,0 +1,56 @@
+ {% extends 'bootstrap/base.html' %}
+
+{% block title %}
+    {% if title %}{{ title }} - Pablo Martin{% else %}Pablo Martin{% endif %}
+{% endblock %}
+
+{% block navbar %}
+    <nav class="navbar navbar-default navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{{ url_for('index') }}"><font size = '7'><b>Home</b></font></a>
+            </div>
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ url_for('Mushroom_Hikes') }}"><font size = '4'>Mushroom Hikes</font></a></li>
+                    <li><a href="{{ url_for('hunter') }}"><font size = '4'>HunterBot</font></a></li>
+                    <li><a href="{{ url_for('Hypermaze') }}"><font size = '4'>HyperMaze</font></a></li>
+                    <li><a href="{{ url_for('books') }}"><font size = '4'>Books</font></a></li>
+                    <li><a href="{{ url_for('CV') }}"><font size = '4'>Contact</font></a></li>
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+      {# application content needs to be provided in the app_content block #}
+      {% block app_content %}{% endblock %}
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-info" role="alert">
+              <h4 class="alert-heading">Hunter Says:</h4>
+               <hr>
+              <p><font size = '5'>{{message}}</font></p>
+            </div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+    {% block post_content %}{% endblock %}
+
+
+    {% block bottom_space %}
+    </br></br></br></br>
+
+    {% endblock %}
+    </div>
+{% endblock %}
